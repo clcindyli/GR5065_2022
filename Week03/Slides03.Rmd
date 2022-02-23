@@ -1,16 +1,18 @@
 ---
-title: Discrete Probability Distributions
-author: Ben Goodrich
+title: "Discrete Probability Distributions"
+author: "Ben Goodrich"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-autosize: true
-header-includes:
-   - \usepackage{amsmath}
-   - \usepackage{color}
-   - \usepackage{cancel}
 output:
+  slidy_presentation: default
+  beamer_presentation: default
   ioslides_presentation:
-    widescreen: true
-editor_options: 
+    widescreen: yes
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{color}
+- \usepackage{cancel}
+autosize: yes
+editor_options:
   chunk_output_type: console
 ---
 <style type="text/css">
@@ -70,6 +72,9 @@ $$\mathbb{E}g\left(X,Y\right) =
 - Covariance and correlation measure linear dependence (only). The correlation
 is unit-free and $-1 \leq \rho \leq 1$,
 but is $\rho\gtreqqless0$ for two rolls in bowling?
+- >> covariance is typically preferred bc it is unit-free!
+- >> previous definitions of mean, correlation, etc. were ESTIMATORS - they ESTIMATE these equations - it is a property of the random variable
+- >> we need to know THE mathematical definition!!!! 
 
 ## Bernoulli Distribution
 
@@ -78,7 +83,9 @@ but is $\rho\gtreqqless0$ for two rolls in bowling?
 > - The probability that $x = 1$ ("success") is $\pi$ and the probability that 
   $x = 0$ ("failure") is $1 - \pi$
 > - Can write as a Probability Mass Function (PMF) $\Pr\left(x \mid \pi\right)=\pi^{x}\left(1-\pi\right)^{1-x}$
+> > > - a function that explains all probabilities within the range 
 > - What is the expectation of $X$?
+>>> expectation = $pi$
 > - What is the variance of $X$?
 > - You could write a model where $\pi$ is a function of predictors for each observation, 
   as in $\pi\left(z\right) = \frac{1}{1+e^{-\alpha - \beta z}}$ for a logit model with predictor $z$
@@ -87,7 +94,7 @@ but is $\rho\gtreqqless0$ for two rolls in bowling?
 ## Binomial Distribution
 
 > - A Binomial random variable can be defined as the sum of $n$
-INDEPENDENT Bernoulli random variables all with the same $\pi$. What is $\Omega$ in this case?
+INDEPENDENT Bernoulli random variables all with the same $\pi$. What is $\Omega$ in this case? 
 > - What is an expression for the expectation of a Binomial random variable?
 > - What is an expression for the variance of a Binomial random variable?
 > - What is an expression for $\Pr\left(x \mid \pi,n=3\right)$? Hint: 8 cases to consider
@@ -101,14 +108,15 @@ INDEPENDENT Bernoulli random variables all with the same $\pi$. What is $\Omega$
 
 ## Back to Bowling Questions
 
-> - Why is the binomial distribution with $n = 10$ inappropriate for the first roll of a frame of bowling?
-> - Could the Bernoulli distribution be used for success in getting a strike?
-> - Could the Bernoulli distribution be used for the probability of knocking over the frontmost pin?
+> - Why is the binomial distribution with $n = 10$ inappropriate for the first roll of a frame of bowling? --- pins are not independent at all!! 
+> - Could the Bernoulli distribution be used for success in getting a strike? --- oui
+> - Could the Bernoulli distribution be used for the probability of knocking over the front most pin? -- also oui - marginal probability of first pin could be bernouilli  
 > - If $X_i = \mathbb{I}\{\mbox{pin i is knocked down}\}$ and $\pi_i$ is the
   probability in the $i$-th Bernoulli distribution, which could be a function of
   other pins, what conceptually is
 $$\Pr\left(x_1 \mid \pi_1\right)\prod_{i=2}^{10}
   \Pr\left(x_i \mid \pi_i\left(X_1=x_1,X_2=x_2,\dots,X_{i-1}=x_{i-1}\right)\right)?$$
+  -- concept = joint probability over all events in the sample space (11 events) - we use general multiplication rule 10 times
 
 ## Poisson Distribution for Counts
 
@@ -125,6 +133,7 @@ What is the limit of the binomial PMF, $\Pr\left(x \mid n,\pi\right)={n \choose 
       PMF of the Poisson distribution over $\Omega = \{0,\mathbb{Z}_+\}$
 
 > - What is the variance of a Poisson random variable?
+> -- mean and variance are the same number but refering to different CONCEPTS
 
 ## Parameterized Bowling Probabilities {.build}
 

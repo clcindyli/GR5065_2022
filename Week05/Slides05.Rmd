@@ -1,18 +1,22 @@
 ---
 title: "Bayesian (and Frequentist) Principles"
-author: Ben Goodrich
+author: "Ben Goodrich"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-autosize: true
-header-includes:
-   - \usepackage{amsmath}
-   - \usepackage{amssymb}
-   - \usepackage{color}
-   - \usepackage{cancel}
 output:
+  slidy_presentation:
+    highlight: pygment
   ioslides_presentation:
     widescreen: yes
     highlight: pygment
-editor_options: 
+  beamer_presentation:
+    highlight: pygment
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{amssymb}
+- \usepackage{color}
+- \usepackage{cancel}
+autosize: yes
+editor_options:
   chunk_output_type: console
 ---
 <style type="text/css">
@@ -55,7 +59,7 @@ library(ggplot2)
 library(dplyr)
 m <- 5.45; s <- 1.5; sigma <- 7 / 3; rho <- -1 / 10
 # together these are a trivariate random variable; separately they are univariate marginal RVs
-tibble(mu  = rnorm(10^6, mean = m,  sd = s),
+tibble(mu  = rnorm(10^6, mean = m,  sd = s), #each is a marginal distribution
        GDI = rnorm(10^6, mean = mu, sd = sigma),
        GDP = rnorm(10^6, mean = mu + rho * (GDI - mu), 
                    sd = sigma * sqrt(1 - rho^2))) %>%
@@ -70,6 +74,8 @@ tibble(mu  = rnorm(10^6, mean = m,  sd = s),
        GDP = rnorm(10^6, mean = mu + rho * (GDI - mu), 
                    sd = sigma * sqrt(1 - rho^2))) %>%
   ggplot() + geom_bin_2d(aes(x = GDI, y = GDP))
+
+#get probabilities if divide by 1,000,000
 ```
 
 ## Prior Predictive Probability for Bowling {.smaller}
@@ -81,6 +87,7 @@ $\Pr\left(x_1 \bigcap x_2 \mid m, n = 10\right)$, but that area can only be calc
 by calling `integrate`
 ```{r, echo = FALSE}
 source(file.path("..", "Week04", "bowling.R")) # defines Pr and Omega as 0:10
+#posterior = prior * likelihood / integral of numerator
 marginal_Pr <- matrix(0, nrow = 11, ncol = 11, dimnames = list(Omega, Omega))
 for (x_1 in Omega) {
   for(x_2 in 0:(10 - x_1)) {
@@ -223,7 +230,7 @@ p_value <- pbinom(11, size = n, prob = theta_0)           # virtually zero
 CI_theta_high <- qbeta(0.95, shape1 = 11 + 1, shape2 = n) # 0.09118634
 ```
 ```{r, message = FALSE}
-library(dplyr)
+library(dplyr) #another trivariate tibble 
 tibble(y = rbinom(10^6,  size = n, prob = theta_0), # y is random, not theta_0
        p_val = pbinom(y, size = n, prob = theta_0), # random because y is
        CI_high = qbeta(0.95, shape = y + 1, shape2 = n - y)) %>% # random because y is
@@ -352,7 +359,7 @@ filtered <- tibble(theta = rbeta(10^6, a, b)) %>%
 rbind(exact = choose(n, y) * beta(a_star, b_star) / beta(a, b), # beta-binomial PMF
       simulated = nrow(filtered) / 10^6)                        # denominator of Bayes Rule
 rbind(exact = a_star / (a_star + b_star), 
-      simulated = mean(filtered$theta))
+      simulated = mean(filtered$theta)) #a proportion for a filter from a simulation
 ```
 
 ## (4) Specify a Posterior in Stan to Draw from

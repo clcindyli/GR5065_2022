@@ -1,16 +1,18 @@
 ---
-title: Probability with Continuous Random Variables
-author: Ben Goodrich
+title: "Probability with Continuous Random Variables"
+author: "Ben Goodrich"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-autosize: true
-header-includes:
-   - \usepackage{amsmath}
-   - \usepackage{color}
-   - \usepackage{cancel}
 output:
+  slidy_presentation: default
+  beamer_presentation: default
   ioslides_presentation:
-    widescreen: true
-editor_options: 
+    widescreen: yes
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{color}
+- \usepackage{cancel}
+autosize: yes
+editor_options:
   chunk_output_type: console
 ---
 <style type="text/css">
@@ -109,7 +111,7 @@ is still the RATE OF CHANGE in $F\left(x \mid \boldsymbol{\theta}\right)$ at $x$
 the slope of the CDF at $x$
 > - The derivative of $F\left(x\right)$ with respect to $x$ is the Probability
 Density Function (PDF) & denoted $f\left(x\right)$, which is always positive because the CDF increases
-> - $f\left(x\right)$ is NOT a probability (it is a probability's slope) but is used like a PMF
+> - $f\left(x\right)$ is NOT a probability (it is a probability's slope) but is used like a PMF!!!!!!!!!
 > - Conversely, $F\left(x\mid\theta\right) = \int_{-\infty}^x f\left(x \mid \theta\right)dx$
   is the area under the PDF up to $x$
 > - Can use WolframAlpha to take [derivatives](https://www.wolframalpha.com/input/?i=partial+derivative)
@@ -125,7 +127,7 @@ Concept  | Discrete $X$ and $Y$  | Continuous $X$, $Y$, and $\theta$ | Comment
 Cumulative      | $F\left(x \mid \theta\right) = \Pr\left(X \leq x \mid \theta\right)$  | $F\left(x \mid \theta\right) = \Pr\left(X \leq x \mid \theta\right)$ | CMF & CDF are the same concept
 Median | $\arg\min_x:F\left(x \mid \theta\right) \geq \frac{1}{2}$ | $F^{-1}\left(\frac{1}{2} \mid \theta\right) = x$ | $F^{-1}\left(p\right)$ is an inverse CDF
 Rate of Change  | $\Pr\left(x \mid \theta \right) = \frac{F\left(x \mid \theta \right) - F\left(x - 1 \mid \theta\right)}{x - \left(x - 1\right)}$  | $f\left(x \mid \theta\right) = \frac{\partial}{\partial x}F\left(x \mid \theta \right)$ | $f$ is a density, not a probability
-Mode | $\arg\max_x \Pr\left(x \mid \theta \right)$ | $\arg\max_x f\left(x \mid \theta\right)$ | Posterior mode is a red herring
+Mode | $\arg\max_x \Pr\left(x \mid \theta \right)$ | $\arg\max_x f\left(x \mid \theta\right)$ | Posterior mode is a red herring - little f is literally never important
 $\mathbb{E}g\left(X \mid \theta\right)$ | $\sum_{x \in \Omega} g\left(x\right) \Pr\left(x \mid \theta\right)$ | $\int_{\Omega} g\left(x\right) f\left(x \mid \theta \right) dx$ | Might not exist in continuous case
 Mult. Rule | $\Pr\left(x \mid \theta \right) \Pr\left(y \mid x, \theta\right)$ | $f\left(x \mid \theta\right) f\left(y \mid x,\theta\right)$ | Independence is a special case
 Bayes Rule | $\frac{\Pr\left(x \bigcap y\right)}{\Pr\left(\bcancel{x} \bigcap y\right)} = \frac{\Pr\left(x\right) \Pr\left(y \mid x\right)}{\sum_{x \in \Omega} \Pr\left(x\right) \Pr\left(y \mid x\right)}$ | $\frac{f\left(\theta \bigcap y\right)}{f\left(\bcancel{\theta} \bigcap y\right)} = \frac{f\left(\theta\right) f\left(y \mid \theta\right)}{\int_{-\infty}^\infty f\left(\theta\right) f\left(y \mid \theta\right)d\theta}$ | But integrals are rarely elementary
@@ -144,7 +146,7 @@ $$\mathbb{E}g\left(X\right) = \int_a^b g\left(x\right) f\left(x \mid a, b\right)
 -\int_a^b \ln f\left(x \mid a,b\right) f\left(x \mid a,b\right) dx$$
 and is maximized for continuous RVs on $\Omega = \left[a,b\right]$ by 
 $f\left(x \mid a,b\right) = \frac{1}{b - a}$. So, uniform distribution conveys no
-information about $X$ beyond that $\Omega = \left[a,b\right]$.
+information about $X$ beyond that $\Omega = \left[a,b\right]$.- no ADDITIONAL info - not COMPLETELY uninformative - just no more than what we started with 
 
 ## Exponential Distribution
 
@@ -319,6 +321,10 @@ obtained via:
 mu_X <- 9.8; sigma_X <- 7.6; mu_Y <- 5.4; sigma_Y <- 3.2; rho <- -0.1; y <- sqrt(5)
 denominator <- integrate(dbinorm, lower = -Inf, upper = Inf, y = y, # uses little trapezoids basically
                          mean_x = mu_X, mean_y = mu_Y, sd_x = sigma_X, sd_y = sigma_Y, rho = rho)$value
+```
+
+
+```{r}
 format(c(exact = dnorm(y, mean = mu_Y, sd = sigma_Y), numeric = denominator), digits = 10)
 ```
 
